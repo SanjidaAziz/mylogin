@@ -1,4 +1,5 @@
 <?php
+use League\Container\Inflector\Inflector;
 /**
  * CakePHP(tm) : Rapid Development Framework (https://cakephp.org)
  * Copyright (c) Cake Software Foundation, Inc. (https://cakefoundation.org)
@@ -12,8 +13,10 @@
  * @since         0.10.0
  * @license       https://opensource.org/licenses/mit-license.php MIT License
  * @var \App\View\AppView $this
+ *
  */
-
+ $username = $this->Identity->get('firsname').' '.$this->Identity->get('lastname');
+ $roleid = $this->Identity->get('id'); 
 $cakeDescription = 'CakePHP: the rapid development php framework';
 ?>
 <!DOCTYPE html>
@@ -48,14 +51,25 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
             <a href="<?= $this->Url->build('/') ?>"><span>Cake</span>PHP</a>
         </div>
         <div class="top-nav-links">
-            <a target="_blank" rel="noopener" href="https://book.cakephp.org/4/">Documentation</a>
-            <?= $this->Html->link(__('Logout'), ['controller'=> 'Users','action' => 'logout'], ['class' => 'button text-white']) ?>
+        <?php if ($this->Identity->isLoggedIn()) { ?>
+            <?= $this->Html->link(__($username), ['controller'=> 'Users','action' => 'view']) ?>
+            <?= $this->Html->link(__('Logout'), ['controller'=> 'Users','action' => 'logout']) ?>
+        <?php }else{ ?>
+            <?= $this->Html->link(__('Login'), ['controller'=> 'Users','action' => 'login']) ?>
+            <?= $this->Html->link(__('Signup'), ['controller'=> 'Users','action' => 'signup']) ?>
+        <?php } ?>
+            
         </div>
     </nav>
     <main class="main">
         <div class="container">
+        
             <?= $this->Flash->render() ?>
-            <?= $this->fetch('content') ?>
+            <div class="row d-flex justify-content-center">
+                <?php if ($this->Identity->isLoggedIn()) echo $this->element('side_menu',['viewname'=>$inflector::singularize($this->name)])?>
+                <?php  echo $this->fetch('content')?>  
+                
+            </div>
         </div>
     </main>
     <footer>

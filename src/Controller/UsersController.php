@@ -7,18 +7,36 @@ namespace App\Controller;
  * Users Controller
  *
  * @property \App\Model\Table\UsersTable $Users
+ * 
  * @method \App\Model\Entity\User[]|\Cake\Datasource\ResultSetInterface paginate($object = null, array $settings = [])
  */
 class UsersController extends AppController
 {
+    /*
+   
+    */
     /**
      * Index method
+     * 
+     * 
      *
      * @return \Cake\Http\Response|null|void Renders view
      */
     public function index()
     {
-        $users = $this->paginate($this->Users);
+
+        $key = $this->request->getQuery('key');
+        if($key){
+            $query = $this->Users->find('all')
+                                    ->where(['OR'=>['firsname like'=> '%'.$key.'%',
+                                                    'lastname like'=> '%'.$key.'%',
+                                                    'email like'=> '%'.$key.'%']]);
+           // $query = $this->Users->findByEmailOrFirsnameOrLastname($key,$key,$key);
+        }else{
+            $query = $this->Users;
+        }
+
+        $users = $this->paginate($query);
 
         $this->set(compact('users'));
     }
@@ -120,12 +138,17 @@ class UsersController extends AppController
 
     public function login()
     {
+         
+        
         $this->request->allowMethod(['get', 'post']);
         $result = $this->Authentication->getResult();
+        
+
         // regardless of POST or GET, redirect if user is logged in
         if ($result && $result->isValid()) {
             // redirect to /articles after login success
-            $this->Flash->success(__('Login successful.'));
+
+            $this->Flash->success(__('Logged in'));
             $redirect = $this->request->getQuery('redirect', [
                 'controller' => 'Users',
                 'action' => 'index',
@@ -137,6 +160,7 @@ class UsersController extends AppController
         if ($this->request->is('post') && !$result->isValid()) {
             $this->Flash->error(__('Invalid username or password'));
         }
+       
     }
 
     public function logout()

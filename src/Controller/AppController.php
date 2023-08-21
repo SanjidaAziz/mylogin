@@ -17,6 +17,7 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use Cake\Controller\Controller;
+use Cake\Utility\Inflector;
 
 /**
  * Application Controller
@@ -61,5 +62,8 @@ class AppController extends Controller
         // Configure the login action to not require authentication, preventing
         // the infinite redirect loop issue
         $this->Authentication->addUnauthenticatedActions(['login','signup']);
+
+        $this->set('inflector', new Inflector);
+
     }
 }
