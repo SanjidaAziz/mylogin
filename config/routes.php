@@ -23,6 +23,8 @@
 
 use Cake\Routing\Route\DashedRoute;
 use Cake\Routing\RouteBuilder;
+//use Cake\Routing\RouterBuilder;
+
 
 return static function (RouteBuilder $routes) {
     /*
@@ -50,7 +52,8 @@ return static function (RouteBuilder $routes) {
          * its action called 'display', and we pass a param to select the view file
          * to use (in this case, templates/Pages/home.php)...
          */
-        $builder->connect('/', ['controller' => 'Pages', 'action' => 'display', 'home']);
+        //$builder->connect('/', ['controller' => 'Pages', 'action' => 'display', 'home']);
+        $builder->connect('/', ['controller' => 'Users', 'action' => 'login']);
 
         /*
          * ...and connect the rest of 'Pages' controller's URLs.
@@ -72,6 +75,19 @@ return static function (RouteBuilder $routes) {
          */
         $builder->fallbacks();
     });
+
+    /*
+
+    $routes->prefix('admin', function (RouteBuilder $routes) {
+        // All routes here will be prefixed with `/admin`, and
+        // have the `'prefix' => 'Admin'` route element added that
+        // will be required when generating URLs for these routes
+        $routes->connect('/', ['controller' => 'Users', 'action' => 'index']);
+        $routes->fallbacks(DashedRoute::class);
+    });
+
+    */
+
 
     /*
      * If you need a different set of middleware or none at all,
