@@ -1,31 +1,25 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Controller;
-use Cake\Auth\DefaultPasswordHasher; 
+namespace App\Controller\Admin;
+
+use App\Controller\Admin\AppController;
 
 /**
  * Users Controller
  *
  * @property \App\Model\Table\UsersTable $Users
- * 
  * @method \App\Model\Entity\User[]|\Cake\Datasource\ResultSetInterface paginate($object = null, array $settings = [])
  */
 class UsersController extends AppController
 {
-    /*
-   
-    */
     /**
      * Index method
-     * 
-     * 
      *
      * @return \Cake\Http\Response|null|void Renders view
      */
     public function index()
     {
-
         $key = $this->request->getQuery('key');
         if($key){
             $query = $this->Users->find('all')
@@ -52,9 +46,11 @@ class UsersController extends AppController
      */
     public function view($id = null)
     {
-        $this->Flash->error(__('You are user. You don\'t have permission for this page'));
-        return $this->redirect(['controller' => 'Users','action' => 'index']);
-         
+        $user = $this->Users->get($id, [
+            'contain' => [],
+        ]);
+
+        $this->set(compact('user'));
     }
 
     /**
@@ -64,8 +60,17 @@ class UsersController extends AppController
      */
     public function add()
     {
-        $this->Flash->error(__('You are user. You don\'t have permission for this page'));
-        return $this->redirect(['controller' => 'Users','action' => 'index']);      
+        $user = $this->Users->newEmptyEntity();
+        if ($this->request->is('post')) {
+            $user = $this->Users->patchEntity($user, $this->request->getData());
+            if ($this->Users->save($user)) {
+                $this->Flash->success(__('The user has been saved.'));
+
+                return $this->redirect(['controller' => 'Admin/Users','action' => 'index']);
+            }
+            $this->Flash->error(__('The user could not be saved. Please, try again.'));
+        }
+        $this->set(compact('user'));
     }
 
     /**
@@ -77,46 +82,19 @@ class UsersController extends AppController
      */
     public function edit($id = null)
     {
-        $this->Flash->error(__('You are user. You don\'t have permission for this page'));
-        return $this->redirect(['controller' => 'Users','action' => 'index']);
-    }
-    public function changepassword($id = null)
-    {
         $user = $this->Users->get($id, [
             'contain' => [],
         ]);
-    
         if ($this->request->is(['patch', 'post', 'put'])) {
-            // Get the posted data
-            $requestData = $this->request->getData();
-    
-            // Verify if the current password matches the stored password
-            $hasher = new DefaultPasswordHasher();
-            if ($hasher->check($requestData['current_password'], $user->password)) {
-                // Current password matches
-                if ($requestData['new_password'] === $requestData['confirm_password']) {
-                    // New password and confirm password match, proceed with password change
-                    $user->password = $requestData['new_password'];
-    
-                    if ($this->Users->save($user)) {
-                        $this->Flash->success(__('Password has been changed.'));
-                        return $this->redirect(['controller' => 'Users','action' => 'index']);
-                    } else {
-                        $this->Flash->error(__('Password could not be changed. Please try again.'));
-                    }
-                } else {
-                    // New password and confirm password do not match
-                    $this->Flash->error(__('New password and confirm password do not match.'));
-                }
-            } else {
-                // Current password does not match
-                $this->Flash->error(__('Current password is incorrect.'));
+            $user = $this->Users->patchEntity($user, $this->request->getData());
+            if ($this->Users->save($user)) {
+                $this->Flash->success(__('The user has been saved.'));
+
+                return $this->redirect(['controller' => 'Admin/Users','action' => 'index']);
             }
+            $this->Flash->error(__('The user could not be saved. Please, try again.'));
         }
-    
         $this->set(compact('user'));
-        
-        
     }
 
     /**
@@ -128,29 +106,19 @@ class UsersController extends AppController
      */
     public function delete($id = null)
     {
-        $this->Flash->error(__('You are user. You don\'t have permission for this page'));
-        return $this->redirect(['controller' => 'Users','action' => 'index']);
-    }
-
-    public function signup()
-    {
-        $user = $this->Users->newEmptyEntity();
-        if ($this->request->is('post')) {
-            $user = $this->Users->patchEntity($user, $this->request->getData());
-            if ($this->Users->save($user)) {
-                $this->Flash->success(__('The user has been saved.'));
-
-                return $this->redirect(['controller' => 'Users','action' => 'index']);
-            }
-            $this->Flash->error(__('The user could not be saved. Please, try again.'));
+        $this->request->allowMethod(['post', 'delete']);
+        $user = $this->Users->get($id);
+        if ($this->Users->delete($user)) {
+            $this->Flash->success(__('The user has been deleted.'));
+        } else {
+            $this->Flash->error(__('The user could not be deleted. Please, try again.'));
         }
-        $this->set(compact('user'));
-    }
 
+        return $this->redirect(['controller' => 'Admin/Users','action' => 'index']);
+    }
     public function login()
     {
-         
-        
+          
         $this->request->allowMethod(['get', 'post']);
         $result = $this->Authentication->getResult();
         
@@ -161,7 +129,7 @@ class UsersController extends AppController
 
             $this->Flash->success(__('Logged in'));
             $redirect = $this->request->getQuery('redirect', [
-                'controller' => 'Users',
+                'controller' => 'Admin/Users',
                 'action' => 'index',
             ]);
 
@@ -182,7 +150,13 @@ class UsersController extends AppController
             $this->Flash->success(__('Successfully logged out.'));
 
             $this->Authentication->logout();
-            return $this->redirect(['controller' => 'Users', 'action' => 'login']);
+            return $this->redirect(['controller' => 'Admin/Users', 'action' => 'login']);
         }
+    }
+
+    public function signup()
+    {
+        $this->Flash->error(__('You are user. You don\'t have permission for this page'));
+        return $this->redirect(['controller' => 'Users','action' => 'index']);
     }
 }

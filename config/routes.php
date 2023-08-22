@@ -76,7 +76,7 @@ return static function (RouteBuilder $routes) {
         $builder->fallbacks();
     });
 
-    /*
+    
 
     $routes->prefix('admin', function (RouteBuilder $routes) {
         // All routes here will be prefixed with `/admin`, and
@@ -86,7 +86,7 @@ return static function (RouteBuilder $routes) {
         $routes->fallbacks(DashedRoute::class);
     });
 
-    */
+    
 
 
     /*

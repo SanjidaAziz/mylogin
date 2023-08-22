@@ -138,6 +138,7 @@ public function getAuthenticationService(ServerRequestInterface $request): Authe
     // Load identifiers, ensure we check email and password fields
     $authenticationService->loadIdentifier('Authentication.Password', [
         'fields' => [
+            //'prefix' => 'admin',
             'username' => 'email',
             'password' => 'password',
         ]
@@ -148,6 +149,7 @@ public function getAuthenticationService(ServerRequestInterface $request): Authe
     // Configure form data check to pick email and password
     $authenticationService->loadAuthenticator('Authentication.Form', [
         'fields' => [
+            //'prefix' => 'admin',
             'username' => 'email',
             'password' => 'password',
         ],

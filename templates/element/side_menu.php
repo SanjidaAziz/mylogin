@@ -4,11 +4,13 @@
  * 
  */
 $roleid = $this->Identity->get('usertype');
+if($roleid==0) $role='Admin';
+if($roleid==1) $role='User';
 $id = $this->Identity->get('id');
 ?>
 
 <aside class="col-lg-2 col-md-3">
-    <h4 class="heading"><?= __($viewname) ?></h4>
+    <h4 class="heading"><?= __($role) ?></h4>
 
     <div class="side-nav">
         <?php  if($roleid==1){ ?>

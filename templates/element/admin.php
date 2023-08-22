@@ -8,7 +8,7 @@
 ?>
 <div class="column-responsive column-80 content">
          
-        <div class="users index ">
+    <div class="users index ">
             
             <?= $this->Form->create(null,['type'=>'get']) ?>
             <?= $this->Form->control('key',['label'=>false, 'value'=>$this->request->getQuery('key')]) ?>
@@ -66,6 +66,6 @@
                 </ul>
                 <p><?= $this->Paginator->counter(__('Page {{page}} of {{pages}}, showing {{current}} record(s) out of {{count}} total')) ?></p>
             </div>
-        </div>
+    </div>
        
-    </div
+</div
