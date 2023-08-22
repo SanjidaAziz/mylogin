@@ -52,7 +52,7 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
         </div>
         <div class="top-nav-links">
         <?php if ($this->Identity->isLoggedIn()) { ?>
-            <?= $this->Html->link(__($username), ['controller'=> 'Users','action' => 'view']) ?>
+            <?= $this->Html->link(__($username), ['controller'=> 'Users','action' => 'index']) ?>
             <?= $this->Html->link(__('Logout'), ['controller'=> 'Users','action' => 'logout']) ?>
         <?php }else{ ?>
             <?= $this->Html->link(__('Login'), ['controller'=> 'Users','action' => 'login']) ?>

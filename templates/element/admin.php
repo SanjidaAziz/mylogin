@@ -5,13 +5,8 @@
  *
  * 
  */
-$roleid = $this->Identity->get('usertype'); 
-$userid = $this->Identity->get('id');
-//$currentuser = $this->Identity->getIdentity();
-echo $roleid;
-
-if($roleid==4){ ?>
-    <div class="column-responsive column-80 content">
+?>
+<div class="column-responsive column-80 content">
          
         <div class="users index ">
             
@@ -73,13 +68,4 @@ if($roleid==4){ ?>
             </div>
         </div>
        
-    </div>
-<?php } elseif($roleid==1){ 
-
-    echo $this->element('user_profile',['id'=>$userid]);
-    
- } elseif($roleid==0){ 
-
-    echo $this->element('admin');
-
-} ?>
+    </div

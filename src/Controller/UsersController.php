@@ -2,6 +2,7 @@
 declare(strict_types=1);
 
 namespace App\Controller;
+use Cake\Auth\DefaultPasswordHasher; 
 
 /**
  * Users Controller
@@ -99,6 +100,44 @@ class UsersController extends AppController
             $this->Flash->error(__('The user could not be saved. Please, try again.'));
         }
         $this->set(compact('user'));
+    }
+    public function changepassword($id = null)
+    {
+        $user = $this->Users->get($id, [
+            'contain' => [],
+        ]);
+    
+        if ($this->request->is(['patch', 'post', 'put'])) {
+            // Get the posted data
+            $requestData = $this->request->getData();
+    
+            // Verify if the current password matches the stored password
+            $hasher = new DefaultPasswordHasher();
+            if ($hasher->check($requestData['current_password'], $user->password)) {
+                // Current password matches
+                if ($requestData['new_password'] === $requestData['confirm_password']) {
+                    // New password and confirm password match, proceed with password change
+                    $user->password = $requestData['new_password'];
+    
+                    if ($this->Users->save($user)) {
+                        $this->Flash->success(__('Password has been changed.'));
+                        return $this->redirect(['action' => 'index']);
+                    } else {
+                        $this->Flash->error(__('Password could not be changed. Please try again.'));
+                    }
+                } else {
+                    // New password and confirm password do not match
+                    $this->Flash->error(__('New password and confirm password do not match.'));
+                }
+            } else {
+                // Current password does not match
+                $this->Flash->error(__('Current password is incorrect.'));
+            }
+        }
+    
+        $this->set(compact('user'));
+        
+        
     }
 
     /**

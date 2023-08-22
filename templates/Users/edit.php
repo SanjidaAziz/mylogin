@@ -7,18 +7,11 @@
 
 <div class="column-responsive column-80 content">
     <div class="users form">
-        <?= $this->Form->create($user) ?>
+        <?= $this->Form->create($user,['type'=>'get']) ?>
         <fieldset>
             <legend><?= __('Edit User') ?></legend>
             <?php
-                echo $this->Form->control('firsname');
-                echo $this->Form->control('lastname');
-                echo $this->Form->control('email');
-                echo $this->Form->control('password');
-                echo $this->Form->control('phone');
-                echo $this->Form->control('birthday');
-                echo $this->Form->control('address');
-                echo $this->Form->control('usertype');
+                echo $this->Form->control('password'); 
             ?>
         </fieldset>
         <?= $this->Form->button(__('Submit')) ?>

@@ -4,6 +4,7 @@
  * 
  */
 $roleid = $this->Identity->get('usertype');
+$id = $this->Identity->get('id');
 ?>
 
 <aside class="col-lg-2 col-md-3">
@@ -11,8 +12,8 @@ $roleid = $this->Identity->get('usertype');
 
     <div class="side-nav">
         <?php  if($roleid==1){ ?>
-            <?= $this->Html->link(__('Profile page'), ['controller'=>'users','action' => 'view'], ['class' => 'side-nav-item']) ?>
-            <?= $this->Html->link(__('Change password'), ['controller'=>'users','action' => 'edit'], ['class' => 'side-nav-item']) ?>
+            <?= $this->Html->link(__('Pofile Page'), ['action' => 'index', $id]) ?>
+            <?= $this->Html->link(__('Change assword'), ['controller'=>'users','action' => 'changepassword', $id], ['class' => 'side-nav-item']) ?>
         <?php } ?>
         <?php  if($roleid==0){ ?>
         <?= $this->Html->link(__('User List'), ['controller'=>'users','action' => 'index'], ['class' => 'side-nav-item']) ?>
