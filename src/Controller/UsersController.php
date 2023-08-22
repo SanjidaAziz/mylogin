@@ -43,43 +43,6 @@ class UsersController extends AppController
         
     }
 
-    /**
-     * View method
-     *
-     * @param string|null $id User id.
-     * @return \Cake\Http\Response|null|void Renders view
-     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
-     */
-    public function view($id = null)
-    {
-        $this->Flash->error(__('You are user. You don\'t have permission for this page'));
-        return $this->redirect(['controller' => 'Users','action' => 'index']);
-         
-    }
-
-    /**
-     * Add method
-     *
-     * @return \Cake\Http\Response|null|void Redirects on successful add, renders view otherwise.
-     */
-    public function add()
-    {
-        $this->Flash->error(__('You are user. You don\'t have permission for this page'));
-        return $this->redirect(['controller' => 'Users','action' => 'index']);      
-    }
-
-    /**
-     * Edit method
-     *
-     * @param string|null $id User id.
-     * @return \Cake\Http\Response|null|void Redirects on successful edit, renders view otherwise.
-     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
-     */
-    public function edit($id = null)
-    {
-        $this->Flash->error(__('You are user. You don\'t have permission for this page'));
-        return $this->redirect(['controller' => 'Users','action' => 'index']);
-    }
     public function changepassword($id = null)
     {
         $user = $this->Users->get($id, [
@@ -114,22 +77,8 @@ class UsersController extends AppController
             }
         }
     
-        $this->set(compact('user'));
+        $this->set(compact('user'));       
         
-        
-    }
-
-    /**
-     * Delete method
-     *
-     * @param string|null $id User id.
-     * @return \Cake\Http\Response|null|void Redirects to index.
-     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
-     */
-    public function delete($id = null)
-    {
-        $this->Flash->error(__('You are user. You don\'t have permission for this page'));
-        return $this->redirect(['controller' => 'Users','action' => 'index']);
     }
 
     public function signup()
