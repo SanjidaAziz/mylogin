@@ -54,7 +54,7 @@ return static function (RouteBuilder $routes) {
          */
         //$builder->connect('/', ['controller' => 'Pages', 'action' => 'display', 'home']);
         $builder->connect('/', ['controller' => 'Users', 'action' => 'index']);
-
+        $builder->connect('/check-email-availability', ['controller' => 'Users', 'action' => 'checkEmailAvailability']);
         /*
          * ...and connect the rest of 'Pages' controller's URLs.
          */

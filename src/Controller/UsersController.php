@@ -91,10 +91,26 @@ class UsersController extends AppController
 
                 return $this->redirect(['controller' => 'Users','action' => 'index']);
             }
-            $this->Flash->error(__('The user could not be saved. Please, try again.'));
+            $this->Flash->error(__('This User could not be saved.Please, Try again.'));
         }
         $this->set(compact('user'));
     }
+    public function checkEmailAvailability()
+    {
+        $this->autoRender = false;
+        $email = $this->request->getQuery('email');
+
+        // Perform database query to check email availability
+        $isAvailable = $this->Users->isEmailAvailable($email);
+
+        echo json_encode(['available' => $isAvailable]);
+        if(!$isAvailable){
+            $this->Flash->error(__('This email already have an acoount. Please, try again using another email.'));
+        }
+        
+    }
+
+    
 
     public function login()
     {
