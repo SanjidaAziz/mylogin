@@ -14,6 +14,7 @@ use Cake\Chronos\Chronos;
             <div class="col-8">           
                 <h3><?= __('User List') ?></h3>
             </div>
+            
             <div class="col-4">
                 <?= $this->Form->create(null, ['type' => 'get']) ?>
                 <div class="input-group">
@@ -25,8 +26,6 @@ use Cake\Chronos\Chronos;
                 </div>
                 <?= $this->Form->end() ?>
             </div>
-
-        </div>
                    
         <div class="table-responsive">
             <table>
@@ -77,4 +76,4 @@ use Cake\Chronos\Chronos;
         </div>
     </div>
        
-</div
+</div>

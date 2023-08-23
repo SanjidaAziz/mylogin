@@ -39,29 +39,7 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="../../webroot/js/jquery-3.7.0.min.js"></script>
 
-    <script>
-        echo $this->Html->scriptBlock(sprintf(
-            'var csrfToken = %s;',
-            json_encode($this->request->getAttribute('csrfToken'))
-        ));
-        $(document).ready(function() {
-            $('#email').on('input', function() {
-                const email = $(this).val();
 
-                $.ajax({
-                    type: "POST",
-                    url: '/check-email-availability',
-                    data: { email: email },
-                    success: function(response) {
-                        const availability = response.available;
-                        const message = availability ? 'Email is available' : 'Email is not available';
-                        $('#email-availability').text(message);
-                    }
-                });
-            });
-        });
-    </script>
-  
 
     <link href="https://fonts.googleapis.com/css?family=Raleway:400,700" rel="stylesheet">
 
@@ -70,6 +48,30 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
     <?= $this->fetch('meta') ?>
     <?= $this->fetch('css') ?>
     <?= $this->fetch('script') ?>
+    <script>
+        echo $this->Html->scriptBlock(sprintf(
+            'var csrfToken = %s;',
+            json_encode($this->request->getAttribute('csrfToken'))
+        ));
+        $(document).ready(function() {
+        var csrfToken = <?= json_encode($this->request->getAttribute('csrfToken')) ?>;
+
+        $('#email').on('input', function() {
+            const email = $(this).val();
+
+            $.ajax({
+                type: "POST",
+                url: '/check-email-availability',
+                data: { email: email, _csrfToken: csrfToken },
+                success: function(response) {
+                    const availability = response.available;
+                    const message = availability ? 'Email is available' : 'Email is not available';
+                    $('#emailavailability').text(message);
+                }
+            });
+        });
+    });
+    </script>
       
     
 </head>
@@ -102,5 +104,9 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
     </main>
     <footer>
     </footer>
+
+  
+
+
 </body>
 </html>
